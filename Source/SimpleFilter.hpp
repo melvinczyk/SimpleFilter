@@ -11,14 +11,21 @@
 #include <vector>
 #include "JuceHeader.h"
 
+#define PI 3.14159265358979323846
+
 class SimpleFilter
 {
 public:
     void setHighPass(bool highPass);
     void setCuttoff(float cuttoffFreq);
     void setSampleRate(float sampleRate);
+    
+    void processBlock(juce::AudioBuffer<float>&, juce::MidiBuffer&);
+    
 private:
     bool highPass;
     float cuttoffFreq;
     float sampleRate;
+    
+    std::vector<float> dnBuffer;
 };
