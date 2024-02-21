@@ -9,6 +9,7 @@
 #pragma once
 
 #include <JuceHeader.h>
+#include "SimpleFilter.hpp"
 
 //==============================================================================
 /**
@@ -17,7 +18,7 @@ class SimpleFilterAudioProcessor  : public juce::AudioProcessor
 {
 public:
     //==============================================================================
-    SimpleFilterAudioProcessor();
+    SimpleFilterAudioProcessor(SimpleFilterAudioProcessor&, juce::AudioProcessorValueTreeState& vts);
     ~SimpleFilterAudioProcessor() override;
 
     //==============================================================================
@@ -55,5 +56,12 @@ public:
 
 private:
     //==============================================================================
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SimpleFilterAudioProcessor)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SimpleFilterAudioProcessor);
+    
+    juce::AudioProcessorValueTreeState parameters;
+    std::atomic<float>* cutoffFrequencyParameter = nullptr;
+    std::atomic<float>* highpassParameter = nullptr;
+    
+    SimpleFilter filter;
+    
 };

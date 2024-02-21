@@ -13,7 +13,7 @@ void SimpleFilter::setHighPass(bool highPass)
     this->highPass = highPass;
 }
 
-void SimpleFilter::setCuttoff(<#float cuttoffFreq#>)
+void SimpleFilter::setCuttoff(float cuttoffFreq)
 {
     this->cuttoffFreq = cuttoffFreq;
 }
@@ -41,8 +41,11 @@ void SimpleFilter::processBlock(juce::AudioBuffer<float> & buffer, juce::MidiBuf
             
             // allpass
             const auto allpassFilteredSample = a1 * inputSample + dnBuffer[channel];
+            dnBuffer[channel] = inputSample - a1 * allpassFilteredSample;
             
-            // TODO: channel assigning and output level
+            const auto filterOutput = 0.5f * (inputSample + sign * allpassFilteredSample);
+            
+            channelSamples[i] = filterOutput;
         }
     }
 }
